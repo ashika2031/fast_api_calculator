@@ -348,3 +348,5 @@ This project is licensed under the MIT License.
 
 - FastAPI documentation and community
 - Reference repository: https://github.com/shanmukh1315/fastapi_calculator
+
+Docker Image: `ashikap/fastapi-calculator:latest`
