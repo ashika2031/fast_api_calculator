@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Here’s a short 4-paragraph reflection you can use and tweak:
 
 In this module I completed a full backend for the FastAPI calculator by wiring together user authentication and calculation CRUD routes on top of my existing models. Implementing registration, login, and JWT-based auth forced me to think more carefully about security basics like password hashing, token expiry, and not exposing sensitive fields in responses. Once the auth flow was stable, I connected it to the calculation endpoints so that each user only sees and manages their own calculations.
@@ -6,4 +7,12 @@ Working with SQLAlchemy and Pydantic together was a good exercise in separation 
 
 Integration testing with pytest was another big learning outcome. Instead of just hitting endpoints manually in the docs, I wrote tests that spin up the app, use a test database, register a user, obtain a token, and then exercise the calculation routes end-to-end. Getting the test database and fixtures configured correctly took some trial and error, but once it worked I had much more confidence that changes to one part of the system wouldn’t silently break others.
 
+=======
+In this module I completed a full backend for the FastAPI calculator by wiring together user authentication and calculation CRUD routes on top of my existing models. Implementing registration, login, and JWT-based auth forced me to think more carefully about security basics like password hashing, token expiry, and not exposing sensitive fields in responses. Once the auth flow was stable, I connected it to the calculation endpoints so that each user only sees and manages their own calculations.
+
+Working with SQLAlchemy and Pydantic together was a good exercise in separation of concerns. The SQLAlchemy models handle persistence and relationships, while the Pydantic schemas define exactly what the API accepts and returns. I had to adjust my schemas a few times to avoid leaking things like hashed passwords and to make sure IDs and data types were consistent across the app and tests. This helped me appreciate how strong typing and clear schemas reduce bugs at the integration level.
+
+Integration testing with pytest was another big learning outcome. Instead of just hitting endpoints manually in the docs, I wrote tests that spin up the app, use a test database, register a user, obtain a token, and then exercise the calculation routes end-to-end. Getting the test database and fixtures configured correctly took some trial and error, but once it worked I had much more confidence that changes to one part of the system wouldn’t silently break others.
+
+>>>>>>> 8492d6b03a222e07af8c210f5586d8ab8d664eb8
 Finally, setting up GitHub Actions and Docker Hub tied everything together in a DevOps pipeline. I configured the workflow to run tests on every push and build/push a Docker image when the pipeline passes, using secrets to log in to Docker Hub securely. This automated loop—from writing code, to tests, to a buildable container image—made the project feel like a real service rather than just homework, and it gave me practical experience with the kind of CI/CD setup I’d expect in a production environment.
