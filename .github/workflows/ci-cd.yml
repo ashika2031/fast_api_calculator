@@ -82,8 +82,7 @@ jobs:
     - name: Install Playwright
       run: |
         pip install playwright pytest-playwright
-        playwright install chromium
-        playwright install-deps
+        playwright install --with-deps chromium
     
     - name: Start FastAPI server
       env:
