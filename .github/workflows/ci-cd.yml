@@ -79,10 +79,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Install Playwright
-      run: |
-        pip install playwright pytest-playwright
-        playwright install --with-deps chromium
+    - name: Ensure Playwright browsers are installed
+      run: python -m playwright install chromium --with-deps
     
     - name: Start FastAPI server
       env:
