@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FastAPI Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        input.error {
+            border-color: #dc3545;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .server-error {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .server-error.show {
+            display: block;
+        }
+        
+        .link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .link a:hover {
+            text-decoration: underline;
+        }
+        
+        .token-display {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            display: none;
+        }
+        
+        .token-display.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Login</h1>
+        
+        <div id="successMessage" class="success-message">
+            Login successful! Token stored.
+        </div>
+        
+        <div id="serverError" class="server-error"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <div id="usernameError" class="error-message"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div id="passwordError" class="error-message"></div>
+            </div>
+            
+            <button type="submit" id="submitBtn">Login</button>
+        </form>
+        
+        <div id="tokenDisplay" class="token-display">
+            <strong>JWT Token:</strong><br>
+            <span id="tokenValue"></span>
+        </div>
+        
+        <div class="link">
+            Don't have an account? <a href="register.html">Register here</a>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        
+        const form = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const serverError = document.getElementById('serverError');
+        const tokenDisplay = document.getElementById('tokenDisplay');
+        const tokenValue = document.getElementById('tokenValue');
+        
+        // Client-side validation functions
+        function validateUsername() {
+            const username = usernameInput.value.trim();
+            const errorEl = document.getElementById('usernameError');
+            
+            if (username.length === 0) {
+                showError(usernameInput, errorEl, 'Username is required');
+                return false;
+            }
+            
+            clearError(usernameInput, errorEl);
+            return true;
+        }
+        
+        function validatePassword() {
+            const password = passwordInput.value;
+            const errorEl = document.getElementById('passwordError');
+            
+            if (password.length === 0) {
+                showError(passwordInput, errorEl, 'Password is required');
+                return false;
+            }
+            
+            clearError(passwordInput, errorEl);
+            return true;
+        }
+        
+        function showError(inputEl, errorEl, message) {
+            inputEl.classList.add('error');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+        }
+        
+        function clearError(inputEl, errorEl) {
+            inputEl.classList.remove('error');
+            errorEl.classList.remove('show');
+        }
+        
+        // Add validation on blur
+        usernameInput.addEventListener('blur', validateUsername);
+        passwordInput.addEventListener('blur', validatePassword);
+        
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Hide previous messages
+            successMessage.classList.remove('show');
+            serverError.classList.remove('show');
+            tokenDisplay.classList.remove('show');
+            
+            // Validate all fields
+            const isUsernameValid = validateUsername();
+            const isPasswordValid = validatePassword();
+            
+            if (!isUsernameValid || !isPasswordValid) {
+                return;
+            }
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/users/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: usernameInput.value.trim(),
+                        password: passwordInput.value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store JWT token in localStorage
+                    localStorage.setItem('jwt_token', data.access_token);
+                    localStorage.setItem('username', usernameInput.value.trim());
+                    
+                    // Show success message
+                    successMessage.classList.add('show');
+                    
+                    // Display token
+                    tokenValue.textContent = data.access_token;
+                    tokenDisplay.classList.add('show');
+                    
+                    // Clear form
+                    form.reset();
+                    
+                    // Redirect to calculator after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = '../demo_ui.html';
+                    }, 3000);
+                } else {
+                    // Show server error
+                    if (response.status === 401) {
+                        serverError.textContent = 'Invalid credentials. Please check your username and password.';
+                    } else {
+                        serverError.textContent = data.detail || 'Login failed. Please try again.';
+                    }
+                    serverError.classList.add('show');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Login';
+                }
+            } catch (error) {
+                serverError.textContent = 'Network error. Please check if the server is running.';
+                serverError.classList.add('show');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+            }
+        });
+    </script>
+</body>
+</html>
