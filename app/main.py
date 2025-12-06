@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import HTTPBearer
 from fastapi.staticfiles import StaticFiles
 from app.database import engine, Base
 from app.routers import users, calculations
@@ -10,8 +9,6 @@ from pathlib import Path
 # Create database tables only if not in test mode
 if os.getenv("TESTING") != "true":
     Base.metadata.create_all(bind=engine)
-
-security = HTTPBearer()
 
 app = FastAPI(
     title="FastAPI Calculator",
