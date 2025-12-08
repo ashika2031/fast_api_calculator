@@ -288,11 +288,12 @@
                 
                 if (response.ok) {
                     // Store JWT token in localStorage
-                    localStorage.setItem('jwt_token', data.access_token);
+                    localStorage.setItem('token', data.access_token);
                     localStorage.setItem('username', usernameInput.value.trim());
                     
                     // Show success message
                     successMessage.classList.add('show');
+                    successMessage.textContent = 'Login successful! Redirecting to calculator...';
                     
                     // Display token
                     tokenValue.textContent = data.access_token;
@@ -301,10 +302,10 @@
                     // Clear form
                     form.reset();
                     
-                    // Redirect to calculator after 3 seconds
+                    // Redirect to calculator after 2 seconds
                     setTimeout(() => {
-                        window.location.href = '../demo_ui.html';
-                    }, 3000);
+                        window.location.href = '/static/calculations.html';
+                    }, 2000);
                 } else {
                     // Show server error
                     if (response.status === 401) {

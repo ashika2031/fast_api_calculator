@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator - Manage Calculations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .header {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .calc-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .calc-form h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: end;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .calculations-list {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .calculations-list h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 6px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #218838;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        #editSection {
+            display: none;
+        }
+
+        .operation-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .op-add { background: #d4edda; color: #155724; }
+        .op-subtract { background: #fff3cd; color: #856404; }
+        .op-multiply { background: #d1ecf1; color: #0c5460; }
+        .op-divide { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧮 Calculator Dashboard</h1>
+        <div class="user-info">
+            <span id="username">Welcome!</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="message"></div>
+
+        <!-- Add Calculation Form -->
+        <div class="calc-form" id="addSection">
+            <h2>➕ Add New Calculation</h2>
+            <form id="addForm" onsubmit="addCalculation(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="operand1">Operand 1</label>
+                        <input type="number" id="operand1" step="any" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="operation">Operation</label>
+                        <select id="operation" required>
+                            <option value="add">Add (+)</option>
+                            <option value="subtract">Subtract (-)</option>
+                            <option value="multiply">Multiply (×)</option>
+                            <option value="divide">Divide (÷)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="operand2">Operand 2</label>
+                        <input type="number" id="operand2" step="any" required>
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Edit Calculation Form -->
+        <div class="calc-form" id="editSection">
+            <h2>✏️ Edit Calculation</h2>
+            <form id="editForm" onsubmit="updateCalculation(event)">
+                <input type="hidden" id="editId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editOperand1">Operand 1</label>
+                        <input type="number" id="editOperand1" step="any" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editOperation">Operation</label>
+                        <select id="editOperation" required>
+                            <option value="add">Add (+)</option>
+                            <option value="subtract">Subtract (-)</option>
+                            <option value="multiply">Multiply (×)</option>
+                            <option value="divide">Divide (÷)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editOperand2">Operand 2</label>
+                        <input type="number" id="editOperand2" step="any" required>
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelEdit()" style="margin-top: 10px;">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Calculations List -->
+        <div class="calculations-list">
+            <h2>📊 Your Calculations</h2>
+            <div id="calculationsTable">
+                <div class="no-data">Loading calculations...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let token = localStorage.getItem('token');
+
+        // Check if user is logged in
+        if (!token) {
+            window.location.href = '/static/login.html';
+        }
+
+        // Load calculations on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCalculations();
+        });
+
+        function showMessage(message, type = 'success') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        async function addCalculation(event) {
+            event.preventDefault();
+            
+            const operand1 = parseFloat(document.getElementById('operand1').value);
+            const operation = document.getElementById('operation').value;
+            const operand2 = parseFloat(document.getElementById('operand2').value);
+
+            try {
+                const response = await fetch(`${API_BASE}/calculations/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ operand1, operation, operand2 })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showMessage(`✅ Calculation successful! Result: ${data.result}`, 'success');
+                    document.getElementById('addForm').reset();
+                    loadCalculations();
+                } else {
+                    const error = await response.json();
+                    showMessage(`❌ Error: ${error.detail}`, 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Failed to add calculation', 'error');
+            }
+        }
+
+        async function loadCalculations() {
+            try {
+                const response = await fetch(`${API_BASE}/calculations/`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const calculations = await response.json();
+                    displayCalculations(calculations);
+                } else if (response.status === 401) {
+                    localStorage.removeItem('token');
+                    window.location.href = '/static/login.html';
+                } else {
+                    showMessage('❌ Failed to load calculations', 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Error loading calculations', 'error');
+            }
+        }
+
+        function displayCalculations(calculations) {
+            const tableDiv = document.getElementById('calculationsTable');
+            
+            if (calculations.length === 0) {
+                tableDiv.innerHTML = '<div class="no-data">No calculations yet. Add your first calculation above!</div>';
+                return;
+            }
+
+            const operationSymbols = {
+                'add': '+',
+                'subtract': '-',
+                'multiply': '×',
+                'divide': '÷'
+            };
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Operation</th>
+                            <th>Expression</th>
+                            <th>Result</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            calculations.forEach(calc => {
+                const date = new Date(calc.created_at).toLocaleString();
+                const symbol = operationSymbols[calc.operation] || calc.operation;
+                html += `
+                    <tr>
+                        <td>${calc.id}</td>
+                        <td><span class="operation-badge op-${calc.operation}">${calc.operation}</span></td>
+                        <td>${calc.operand1} ${symbol} ${calc.operand2}</td>
+                        <td><strong>${calc.result}</strong></td>
+                        <td>${date}</td>
+                        <td class="actions">
+                            <button class="btn-edit" onclick="editCalculation(${calc.id})">Edit</button>
+                            <button class="btn-delete" onclick="deleteCalculation(${calc.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            tableDiv.innerHTML = html;
+        }
+
+        async function editCalculation(id) {
+            try {
+                const response = await fetch(`${API_BASE}/calculations/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const calc = await response.json();
+                    document.getElementById('editId').value = calc.id;
+                    document.getElementById('editOperand1').value = calc.operand1;
+                    document.getElementById('editOperation').value = calc.operation;
+                    document.getElementById('editOperand2').value = calc.operand2;
+                    
+                    document.getElementById('addSection').style.display = 'none';
+                    document.getElementById('editSection').style.display = 'block';
+                    
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    showMessage('❌ Failed to load calculation', 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Error loading calculation', 'error');
+            }
+        }
+
+        async function updateCalculation(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('editId').value;
+            const operand1 = parseFloat(document.getElementById('editOperand1').value);
+            const operation = document.getElementById('editOperation').value;
+            const operand2 = parseFloat(document.getElementById('editOperand2').value);
+
+            try {
+                const response = await fetch(`${API_BASE}/calculations/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ operand1, operation, operand2 })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showMessage(`✅ Calculation updated! New result: ${data.result}`, 'success');
+                    cancelEdit();
+                    loadCalculations();
+                } else {
+                    const error = await response.json();
+                    showMessage(`❌ Error: ${error.detail}`, 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Failed to update calculation', 'error');
+            }
+        }
+
+        async function deleteCalculation(id) {
+            if (!confirm('Are you sure you want to delete this calculation?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/calculations/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok || response.status === 204) {
+                    showMessage('✅ Calculation deleted successfully!', 'success');
+                    loadCalculations();
+                } else {
+                    const error = await response.json();
+                    showMessage(`❌ Error: ${error.detail}`, 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Failed to delete calculation', 'error');
+            }
+        }
+
+        function cancelEdit() {
+            document.getElementById('editSection').style.display = 'none';
+            document.getElementById('addSection').style.display = 'block';
+            document.getElementById('editForm').reset();
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/static/login.html';
+        }
+    </script>
+</body>
+</html>
