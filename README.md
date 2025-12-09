@@ -1,27 +1,40 @@
-# FastAPI Calculator Application - Module 13
+# FastAPI Calculator Application - Modules 13 & 14
 
-A full-featured calculator API built with FastAPI, featuring user authentication, calculation history, complete CRUD operations, and comprehensive E2E testing with Playwright.
+A full-featured calculator API built with FastAPI, featuring user authentication, calculation history, complete BREAD operations, interactive front-end dashboard, and comprehensive E2E testing with Playwright.
+
+## 🎯 Module 14: Complete BREAD Functionality for Calculations
+
+**Latest Updates**:
+- ✅ **Interactive Calculator Dashboard** - Full BREAD operations UI
+- ✅ **Browse**: View all calculations in a responsive table
+- ✅ **Read**: Access calculation details via edit button
+- ✅ **Edit**: Update calculations with inline form
+- ✅ **Add**: Create new calculations with real-time results
+- ✅ **Delete**: Remove calculations with confirmation dialogs
+- ✅ **25 New E2E Tests** - Comprehensive Playwright tests for BREAD operations
+- ✅ **User Experience**: Color-coded badges, success/error messages, smooth transitions
 
 ## 🎯 Module 13: JWT Authentication with Client-Side Validation & Playwright E2E
 
-**Latest Updates**:
+**Previous Module Features**:
 - ✅ Front-end HTML pages with client-side validation
-- ✅ Playwright E2E testing suite (13 tests)
-- ✅ Enhanced CI/CD pipeline with automated E2E tests
+- ✅ Playwright E2E testing suite for authentication (13 tests)
+- ✅ Enhanced CI/CD pipeline with automated testing
 - ✅ JWT token management in localStorage
 - ✅ Automated Docker Hub deployment
 
 ## Features
 
 - **User Authentication**: Register and login with JWT tokens
-- **Front-End Pages**: Registration and login with client-side validation
-- **Calculation Operations**: Add, subtract, multiply, divide
+- **Interactive Dashboard**: Full-featured calculator with BREAD operations
+- **Front-End Pages**: Registration, login, and calculator dashboard
+- **Calculation Operations**: Add, subtract, multiply, divide with real-time results
 - **BREAD Operations**: Browse, Read, Edit, Add, Delete calculations
 - **User Isolation**: Users can only access their own calculations
-- **Comprehensive Testing**: 34 unit tests + 13 E2E tests (99% coverage)
-- **CI/CD Pipeline**: Automated unit, E2E testing, and Docker deployment
+- **Comprehensive Testing**: 34 unit tests + 38 E2E tests (99% coverage)
+- **CI/CD Pipeline**: Automated testing and Docker deployment
 - **OpenAPI Documentation**: Interactive API documentation
-- **Playwright E2E Tests**: Automated browser testing for critical user flows
+- **Playwright E2E Tests**: Automated browser testing for auth and BREAD operations
 
 ## Tech Stack
 
@@ -52,7 +65,8 @@ fast_api_calculator/
 ├── frontend/
 │   ├── register.html        # User registration page
 │   ├── login.html           # User login page
-│   └── index.html           # Home page
+│   ├── index.html           # Home page
+│   └── calculations.html    # Calculator dashboard with BREAD operations
 ├── tests/
 │   ├── __init__.py
 │   ├── conftest.py          # Test fixtures and configuration
@@ -63,7 +77,8 @@ fast_api_calculator/
 │   └── test_database.py     # Database tests (2 tests)
 ├── e2e/
 │   ├── conftest.py          # Playwright test configuration
-│   └── test_auth_e2e.py     # E2E tests for auth flows (13 tests)
+│   ├── test_auth_e2e.py     # E2E tests for auth flows (13 tests)
+│   └── test_calculations_e2e.py # E2E tests for BREAD operations (25 tests)
 ├── .github/
 │   └── workflows/
 │       └── ci-cd.yml        # GitHub Actions workflow (3 jobs)
@@ -126,6 +141,7 @@ fast_api_calculator/
    - API Documentation: http://localhost:8000/docs
    - Registration Page: http://localhost:8000/static/register.html
    - Login Page: http://localhost:8000/static/login.html
+   - Calculator Dashboard: http://localhost:8000/static/calculations.html
    - Home Page: http://localhost:8000/static/index.html
 
 ### Docker Setup
@@ -218,14 +234,21 @@ pytest tests/ --cov=app --cov-report=html  # Generates HTML report in htmlcov/
 # Make sure server is running first
 uvicorn app.main:app --host 0.0.0.0 --port 8000 &
 
-# Run E2E tests
+# Run all E2E tests
 pytest e2e/ -v --browser chromium
+
+# Run authentication E2E tests
+pytest e2e/test_auth_e2e.py -v --browser chromium
+
+# Run calculations BREAD E2E tests
+pytest e2e/test_calculations_e2e.py -v --browser chromium
 
 # Run in headed mode (see browser)
 pytest e2e/ -v --browser chromium --headed
 
 # Run specific E2E test
 pytest e2e/test_auth_e2e.py::TestRegistration::test_register_with_valid_data -v
+pytest e2e/test_calculations_e2e.py::TestCalculationsAdd::test_add_calculation_addition -v
 ```
 
 ### Run All Tests
@@ -250,16 +273,25 @@ The test suite includes:
 - User isolation tests
 - Error handling tests
 
-**E2E Tests (13 tests)**:
-- Valid registration flow
-- Valid login flow
-- Short password validation
-- Invalid email validation
-- Password mismatch detection
-- Wrong password handling
-- Nonexistent user handling
-- Empty field validation
-- Page navigation tests
+**E2E Tests (38 tests)**:
+- **Authentication E2E (13 tests)**:
+  - Valid registration flow
+  - Valid login flow
+  - Short password validation
+  - Invalid email validation
+  - Password mismatch detection
+  - Wrong password handling
+  - Nonexistent user handling
+  - Empty field validation
+  - Page navigation tests
+
+- **Calculations BREAD E2E (25 tests)**:
+  - Add calculations (all operations, decimals, error handling)
+  - Browse calculations (empty state, with data)
+  - Read calculation details
+  - Edit calculations (success, cancel, validation)
+  - Delete calculations (success, cancel, multiple)
+  - Negative scenarios (unauthorized access, empty fields, logout)
 
 **Total Coverage**: 99% (228/229 lines)
 
@@ -269,27 +301,22 @@ The project uses GitHub Actions for continuous integration and deployment.
 
 ### Workflow Steps
 
-The CI/CD pipeline consists of 3 jobs:
+The CI/CD pipeline consists of 2 jobs:
 
 1. **Unit Test Job**
    - Sets up Python 3.11 environment
    - Spins up PostgreSQL service
    - Installs dependencies
-   - Runs pytest unit tests
+   - Runs pytest unit tests (34 tests)
    - Validates code quality
 
-2. **E2E Test Job** (runs after unit tests pass)
-   - Sets up Python and PostgreSQL
-   - Installs Playwright and browsers
-   - Starts FastAPI server
-   - Runs Playwright E2E tests
-   - Uploads screenshots on failure
-
-3. **Build and Push Job** (runs after all tests pass)
+2. **Build and Push Job** (runs after unit tests pass)
    - Builds Docker image
    - Logs in to Docker Hub
    - Pushes image as `ashikap/fastapi-calculator:latest`
    - Uses build cache for faster builds
+
+**Note**: E2E tests (38 tests) are run locally for comprehensive validation before deployment.
 
 ### Setting Up CI/CD
 
