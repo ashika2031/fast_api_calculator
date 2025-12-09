@@ -2,6 +2,27 @@
 
 A full-featured calculator API built with FastAPI, featuring user authentication, calculation history, complete BREAD operations, interactive front-end dashboard, and comprehensive E2E testing with Playwright.
 
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/ashika2031/fast_api_calculator.git
+cd fast_api_calculator
+
+# Install dependencies
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+# Run the application
+uvicorn app.main:app --reload
+
+# Access the application
+# - Calculator Dashboard: http://localhost:8000/static/calculations.html
+# - API Documentation: http://localhost:8000/docs
+# - Register: http://localhost:8000/static/register.html
+```
+
 ## 🎯 Module 14: Complete BREAD Functionality for Calculations
 
 **Latest Updates**:
@@ -337,13 +358,15 @@ The CI/CD pipeline consists of 2 jobs:
    - Go to Actions tab in your GitHub repository
    - Watch the workflow execution
 
-## Docker Hub
+## 🐳 Docker Hub Deployment
 
 The Docker image is automatically pushed to Docker Hub after successful tests.
 
+**Docker Hub Repository**: [`ashikap/fastapi-calculator:latest`](https://hub.docker.com/r/ashikap/fastapi-calculator)
+
 **Pulling the image:**
 ```bash
-docker pull <your-dockerhub-username>/fastapi-calculator:latest
+docker pull ashikap/fastapi-calculator:latest
 ```
 
 **Running the image:**
@@ -351,7 +374,7 @@ docker pull <your-dockerhub-username>/fastapi-calculator:latest
 docker run -p 8000:8000 \
   -e DATABASE_URL=postgresql://user:password@host:5432/calculator_db \
   -e SECRET_KEY=your-secret-key \
-  <your-dockerhub-username>/fastapi-calculator:latest
+  ashikap/fastapi-calculator:latest
 ```
 
 ## Manual Testing via OpenAPI
@@ -383,26 +406,49 @@ docker run -p 8000:8000 \
    - Now you can test all calculation endpoints
    - Try creating, reading, updating, and deleting calculations
 
-## Module 13 Documentation
+## 📚 Additional Documentation
 
-For detailed Module 13 information:
+- **� [REFLECTION.md](REFLECTION.md)** - Complete project reflection covering Modules 12, 13, and 14
+- **� [MODULE14_SUMMARY.md](MODULE14_SUMMARY.md)** - Module 14 completion summary and checklist
 
-- **📖 [MODULE13_README.md](MODULE13_README.md)** - Comprehensive setup guide, testing instructions, and deployment guide
-- **📝 [MODULE13_REFLECTION.md](MODULE13_REFLECTION.md)** - Development reflection, challenges faced, solutions, and learnings
-- **📸 [SCREENSHOT_GUIDE.md](SCREENSHOT_GUIDE.md)** - Step-by-step screenshot instructions for submission
+## 🔗 Project Links
 
-## Quick Links
+- **GitHub Repository**: [ashika2031/fast_api_calculator](https://github.com/ashika2031/fast_api_calculator)
+- **Docker Hub**: [ashikap/fastapi-calculator](https://hub.docker.com/r/ashikap/fastapi-calculator)
+- **GitHub Actions**: [CI/CD Pipeline](https://github.com/ashika2031/fast_api_calculator/actions)
 
-- **GitHub Repository**: https://github.com/ashika2031/fast_api_calculator
-- **Docker Hub**: https://hub.docker.com/r/ashikap/fastapi-calculator
-- **GitHub Actions**: https://github.com/ashika2031/fast_api_calculator/actions
+## 📊 Project Statistics
 
-## Project Statistics
-
-- **Total Tests**: 47 (34 unit + 13 E2E)
+- **Total Tests**: 72 (34 unit + 38 E2E)
 - **Test Coverage**: 99% (228/229 lines)
-- **Lines of Code**: 2,377+ lines
-- **API Endpoints**: 11 endpoints
-- **CI/CD Jobs**: 3-stage pipeline
-- **Documentation Pages**: 10+ markdown files
+- **Lines of Code**: 3,200+ lines (production code)
+- **API Endpoints**: 11 endpoints (5 BREAD + 4 auth + 2 utility)
+- **Front-End Pages**: 4 (register, login, index, calculations)
+- **CI/CD Pipeline**: 2-stage automated deployment
+- **Modules Completed**: 3 (Modules 12, 13, and 14)
+
+## 🎓 Learning Outcomes
+
+This project demonstrates proficiency in:
+- **Backend Development**: FastAPI, SQLAlchemy, PostgreSQL, JWT authentication
+- **Frontend Development**: HTML/CSS/JavaScript, client-side validation, interactive dashboards
+- **Testing**: Unit tests (pytest), E2E tests (Playwright), 99% code coverage
+- **DevOps**: Docker containerization, GitHub Actions CI/CD, automated deployment
+- **Security**: JWT tokens, password hashing, user isolation, CORS configuration
+- **API Design**: RESTful principles, OpenAPI documentation, BREAD operations
+- **User Experience**: Responsive design, error handling, real-time feedback
+
+## 📄 License
+
+This project was created as part of academic coursework.
+
+## 👤 Author
+
+**Ashika Patchigolla**
+- GitHub: [@ashika2031](https://github.com/ashika2031)
+- Project: FastAPI Calculator with Complete BREAD Operations
+
+---
+
+**Built with ❤️ using FastAPI, Playwright, and modern DevOps practices**
 
