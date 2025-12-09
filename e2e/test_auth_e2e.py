@@ -26,13 +26,13 @@ class TestRegistration:
         
         # Fill in registration form with valid data
         unique_email = f"test_{int(time.time())}@example.com"
-        page.fill("#username", f"user_{int(time.time())}")
-        page.fill("#email", unique_email)
-        page.fill("#password", "SecurePass123!")
-        page.fill("#confirm-password", "SecurePass123!")
+        page.fill('input[id="username"]', f"user_{int(time.time())}")
+        page.fill('input[id="email"]', unique_email)
+        page.fill('input[id="password"]', "SecurePass123!")
+        page.fill('input[id="confirmPassword"]', "SecurePass123!")
         
         # Submit form
-        page.click("#registerBtn")
+        page.click('button[type="submit"]')
         
         # Wait for success message
         success_message = page.locator("#message.success")
@@ -59,7 +59,7 @@ class TestRegistration:
         page.fill("#username", f"user_{int(time.time())}")
         page.fill("#email", unique_email)
         page.fill("#password", "short")
-        page.fill("#confirm-password", "short")
+        page.fill("input[id="confirmPassword"]", "short")
         
         # Submit form
         page.click("#registerBtn")
@@ -82,7 +82,7 @@ class TestRegistration:
         page.fill("#username", f"user_{int(time.time())}")
         page.fill("#email", "notanemail")
         page.fill("#password", "SecurePass123!")
-        page.fill("#confirm-password", "SecurePass123!")
+        page.fill("input[id="confirmPassword"]", "SecurePass123!")
         
         # Submit form
         page.click("#registerBtn")
@@ -106,7 +106,7 @@ class TestRegistration:
         page.fill("#username", f"user_{int(time.time())}")
         page.fill("#email", unique_email)
         page.fill("#password", "SecurePass123!")
-        page.fill("#confirm-password", "DifferentPass456!")
+        page.fill("input[id="confirmPassword"]", "DifferentPass456!")
         
         # Submit form
         page.click("#registerBtn")
@@ -129,7 +129,7 @@ class TestRegistration:
         page.fill("#username", f"user_{int(time.time())}")
         page.fill("#email", "test@example.com")  # Existing user
         page.fill("#password", "SecurePass123!")
-        page.fill("#confirm-password", "SecurePass123!")
+        page.fill("input[id="confirmPassword"]", "SecurePass123!")
         
         # Submit form
         page.click("#registerBtn")
@@ -159,7 +159,7 @@ class TestLogin:
         page.fill("#password", "SecurePass123")
         
         # Submit form
-        page.click("#loginBtn")
+        page.click("button[type="submit"]")
         
         # Wait for success message
         success_message = page.locator("#message.success")
@@ -186,7 +186,7 @@ class TestLogin:
         page.fill("#password", "WrongPassword123")
         
         # Submit form
-        page.click("#loginBtn")
+        page.click("button[type="submit"]")
         
         # Check for error message
         error_message = page.locator("#message.error")
@@ -211,7 +211,7 @@ class TestLogin:
         page.fill("#password", "SomePassword123")
         
         # Submit form
-        page.click("#loginBtn")
+        page.click("button[type="submit"]")
         
         # Check for error message
         error_message = page.locator("#message.error")
@@ -228,7 +228,7 @@ class TestLogin:
         page.goto(f"{base_url}/static/login.html")
         
         # Try to submit empty form
-        page.click("#loginBtn")
+        page.click("button[type="submit"]")
         
         # Check for error message
         error_message = page.locator("#message.error")

@@ -11,9 +11,12 @@ import time
 def authenticated_page(page: Page, base_url):
     """Fixture that logs in a user and returns the page with auth token."""
     # Register a new user
-    unique_email = f"calc_user_{int(time.time() * 1000)}@test.com"
+    timestamp = int(time.time() * 1000)
+    username = f"calc_user_{timestamp}"
+    unique_email = f"{username}@test.com"
+    
     page.goto(f"{base_url}/static/register.html")
-    page.fill('input[id="username"]', f"calc_user_{int(time.time() * 1000)}")
+    page.fill('input[id="username"]', username)
     page.fill('input[id="email"]', unique_email)
     page.fill('input[id="password"]', "testpass123")
     page.fill('input[id="confirmPassword"]', "testpass123")
@@ -22,8 +25,7 @@ def authenticated_page(page: Page, base_url):
     # Wait for redirect to login
     page.wait_for_url("**/login.html", timeout=5000)
     
-    # Login
-    username = unique_email.split('@')[0]
+    # Login with the same username
     page.fill('input[id="username"]', username)
     page.fill('input[id="password"]', "testpass123")
     page.click('button[type="submit"]')
