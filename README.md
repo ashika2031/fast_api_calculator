@@ -2,7 +2,7 @@
 
 A full-featured calculator API built with FastAPI, featuring user authentication, calculation history, complete BREAD operations, advanced calculations (power, modulus, sqrt), reports & statistics, interactive front-end dashboard, and comprehensive E2E testing with Playwright.
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Clone the repository
@@ -26,9 +26,9 @@ uvicorn app.main:app --reload
 # - Register: http://localhost:8000/static/register.html
 ```
 
-## ✨ Latest Features
+##  Latest Features
 
-### 📊 Reports & Statistics Feature
+### Reports & Statistics Feature
 - **Usage Analytics Dashboard** - Comprehensive statistics and insights
 - **Total Calculations** - Track your calculation history count
 - **Operations Breakdown** - Visual breakdown with percentages and progress bars
@@ -36,22 +36,22 @@ uvicorn app.main:app --reload
 - **Recent History** - View your last 20 calculations with timestamps
 - **Most Used Operation** - Identify your most frequently used operation
 
-### 🔢 Advanced Calculations
+### Advanced Calculations
 - **Power (^)** - Raise numbers to any power: `2^8 = 256`
 - **Modulus (%)** - Get remainders: `17 % 5 = 2`
 - **Square Root (√)** - Calculate square roots: `√144 = 12`
 - All operations include comprehensive error handling and validation
 
-### 🎨 User Experience Improvements
+### User Experience Improvements
 - Profile management page with password change functionality
 - Clean navigation (logout only in profile section)
 - Color-coded operation badges for all 7 operations
 - Real-time calculation results
 - Responsive design for all devices
 
-## 🎯 Complete Feature List
+##  Complete Feature List
 
-## 🎯 Complete Feature List
+##  Complete Feature List
 
 ### Core Features
 - **User Authentication**: Secure registration and login with JWT tokens
@@ -423,7 +423,7 @@ The CI/CD pipeline automatically:
 
 Current pipeline status: [![CI/CD Pipeline](https://github.com/ashika2031/fast_api_calculator/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/ashika2031/fast_api_calculator/actions)
 
-## 🐳 Docker Hub Repository
+## Docker Hub Repository
 
 The Docker image is automatically built and pushed to Docker Hub after all tests pass.
 
@@ -498,18 +498,18 @@ docker stop fastapi-calculator
    - Now you can test all calculation endpoints
    - Try creating, reading, updating, and deleting calculations
 
-## 📚 Additional Documentation
+##  Additional Documentation
 
 - **[REFLECTION.md](REFLECTION.md)** - Complete project reflection with insights, challenges, and learnings
 
-## 🔗 Important Links
+##  Important Links
 
 - **GitHub Repository**: [https://github.com/ashika2031/fast_api_calculator](https://github.com/ashika2031/fast_api_calculator)
 - **Docker Hub Image**: [https://hub.docker.com/r/ashikap/fastapi-calculator](https://hub.docker.com/r/ashikap/fastapi-calculator)
 - **CI/CD Pipeline**: [https://github.com/ashika2031/fast_api_calculator/actions](https://github.com/ashika2031/fast_api_calculator/actions)
 - **Live API Docs**: http://localhost:8000/docs (when running locally)
 
-## 📊 Project Statistics
+## Project Statistics
 
 - **Total Lines of Code**: 3,500+ lines
 - **Total Tests**: 89 unit/integration tests (100% passing)
@@ -519,48 +519,48 @@ docker stop fastapi-calculator
 - **Operations Supported**: 7 (add, subtract, multiply, divide, power, modulus, sqrt)
 - **Features Implemented**: Authentication, BREAD operations, Advanced calculations, Statistics/Reports, Profile management
 
-## 🎓 Key Learning Outcomes
+##  Key Learning Outcomes
 
 This project demonstrates comprehensive full-stack development skills:
 
 ### Backend Development
-- ✅ **FastAPI Framework**: RESTful API design, dependency injection, middleware
-- ✅ **Database Management**: SQLAlchemy ORM, database migrations, query optimization
-- ✅ **Authentication & Security**: JWT tokens, password hashing (bcrypt), user isolation
-- ✅ **Data Validation**: Pydantic schemas, request/response models
-- ✅ **Error Handling**: Custom exceptions, validation errors, HTTP status codes
+-  **FastAPI Framework**: RESTful API design, dependency injection, middleware
+-  **Database Management**: SQLAlchemy ORM, database migrations, query optimization
+-  **Authentication & Security**: JWT tokens, password hashing (bcrypt), user isolation
+-  **Data Validation**: Pydantic schemas, request/response models
+-  **Error Handling**: Custom exceptions, validation errors, HTTP status codes
 
 ### Frontend Development
-- ✅ **Modern HTML/CSS**: Responsive design, gradient backgrounds, animations
-- ✅ **JavaScript**: Async/await, fetch API, localStorage, DOM manipulation
-- ✅ **Client-Side Validation**: Real-time form validation, error messages
-- ✅ **User Experience**: Loading states, success/error feedback, intuitive navigation
+-  **Modern HTML/CSS**: Responsive design, gradient backgrounds, animations
+-  **JavaScript**: Async/await, fetch API, localStorage, DOM manipulation
+-  **Client-Side Validation**: Real-time form validation, error messages
+-  **User Experience**: Loading states, success/error feedback, intuitive navigation
 
 ### Testing & Quality Assurance
-- ✅ **Unit Testing**: pytest fixtures, mocking, isolated tests
-- ✅ **Integration Testing**: Database interactions, API endpoint testing
-- ✅ **E2E Testing**: Playwright browser automation, user workflow testing
-- ✅ **Code Coverage**: 100% coverage achieved and maintained
-- ✅ **Test Organization**: Proper test structure, fixtures, configuration
+-  **Unit Testing**: pytest fixtures, mocking, isolated tests
+-  **Integration Testing**: Database interactions, API endpoint testing
+-  **E2E Testing**: Playwright browser automation, user workflow testing
+-  **Code Coverage**: 100% coverage achieved and maintained
+-  **Test Organization**: Proper test structure, fixtures, configuration
 
 ### DevOps & Deployment
-- ✅ **Containerization**: Docker multi-stage builds, docker-compose orchestration
-- ✅ **CI/CD Pipeline**: GitHub Actions, automated testing, deployment triggers
-- ✅ **Version Control**: Git workflows, meaningful commits, branch management
-- ✅ **Documentation**: Comprehensive README, API documentation, code comments
+-  **Containerization**: Docker multi-stage builds, docker-compose orchestration
+-  **CI/CD Pipeline**: GitHub Actions, automated testing, deployment triggers
+-  **Version Control**: Git workflows, meaningful commits, branch management
+-  **Documentation**: Comprehensive README, API documentation, code comments
 
 ### Software Engineering Principles
-- ✅ **DRY (Don't Repeat Yourself)**: Reusable functions, fixtures, components
-- ✅ **SOLID Principles**: Separation of concerns, dependency injection
-- ✅ **Security Best Practices**: Input validation, SQL injection prevention, CORS configuration
-- ✅ **Code Organization**: Modular structure, clear naming conventions
-- ✅ **Error Handling**: Graceful failures, informative error messages
+-  **DRY (Don't Repeat Yourself)**: Reusable functions, fixtures, components
+-  **SOLID Principles**: Separation of concerns, dependency injection
+-  **Security Best Practices**: Input validation, SQL injection prevention, CORS configuration
+-  **Code Organization**: Modular structure, clear naming conventions
+-  **Error Handling**: Graceful failures, informative error messages
 
-## 📄 License
+##  License
 
 This project was created as part of academic coursework.
 
-## 👤 Author
+##  Author
 
 **Ashika Patchigolla**
 - GitHub: [@ashika2031](https://github.com/ashika2031)
@@ -568,5 +568,5 @@ This project was created as part of academic coursework.
 
 ---
 
-**Built with ❤️ using FastAPI, Playwright, and modern DevOps practices**
+**Built with using FastAPI, Playwright, and modern DevOps practices**
 
