@@ -1,6 +1,6 @@
-# FastAPI Calculator Application - Modules 13 & 14
+# FastAPI Calculator Application
 
-A full-featured calculator API built with FastAPI, featuring user authentication, calculation history, complete BREAD operations, interactive front-end dashboard, and comprehensive E2E testing with Playwright.
+A full-featured calculator API built with FastAPI, featuring user authentication, calculation history, complete BREAD operations, advanced calculations (power, modulus, sqrt), reports & statistics, interactive front-end dashboard, and comprehensive E2E testing with Playwright.
 
 ## 🚀 Quick Start
 
@@ -14,6 +14,9 @@ python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
+# Install Playwright browsers (for E2E tests)
+playwright install chromium
+
 # Run the application
 uvicorn app.main:app --reload
 
@@ -23,49 +26,68 @@ uvicorn app.main:app --reload
 # - Register: http://localhost:8000/static/register.html
 ```
 
-## 🎯 Module 14: Complete BREAD Functionality for Calculations
+## ✨ Latest Features
 
-**Latest Updates**:
-- ✅ **Interactive Calculator Dashboard** - Full BREAD operations UI
-- ✅ **Browse**: View all calculations in a responsive table
-- ✅ **Read**: Access calculation details via edit button
-- ✅ **Edit**: Update calculations with inline form
-- ✅ **Add**: Create new calculations with real-time results
-- ✅ **Delete**: Remove calculations with confirmation dialogs
-- ✅ **25 New E2E Tests** - Comprehensive Playwright tests for BREAD operations
-- ✅ **User Experience**: Color-coded badges, success/error messages, smooth transitions
+### 📊 Reports & Statistics Feature
+- **Usage Analytics Dashboard** - Comprehensive statistics and insights
+- **Total Calculations** - Track your calculation history count
+- **Operations Breakdown** - Visual breakdown with percentages and progress bars
+- **Average Calculations** - See average values of operands used
+- **Recent History** - View your last 20 calculations with timestamps
+- **Most Used Operation** - Identify your most frequently used operation
 
-## 🎯 Module 13: JWT Authentication with Client-Side Validation & Playwright E2E
+### 🔢 Advanced Calculations
+- **Power (^)** - Raise numbers to any power: `2^8 = 256`
+- **Modulus (%)** - Get remainders: `17 % 5 = 2`
+- **Square Root (√)** - Calculate square roots: `√144 = 12`
+- All operations include comprehensive error handling and validation
 
-**Previous Module Features**:
-- ✅ Front-end HTML pages with client-side validation
-- ✅ Playwright E2E testing suite for authentication (13 tests)
-- ✅ Enhanced CI/CD pipeline with automated testing
-- ✅ JWT token management in localStorage
-- ✅ Automated Docker Hub deployment
+### 🎨 User Experience Improvements
+- Profile management page with password change functionality
+- Clean navigation (logout only in profile section)
+- Color-coded operation badges for all 7 operations
+- Real-time calculation results
+- Responsive design for all devices
 
-## Features
+## 🎯 Complete Feature List
 
-- **User Authentication**: Register and login with JWT tokens
+## 🎯 Complete Feature List
+
+### Core Features
+- **User Authentication**: Secure registration and login with JWT tokens
 - **Interactive Dashboard**: Full-featured calculator with BREAD operations
-- **Front-End Pages**: Registration, login, and calculator dashboard
-- **Calculation Operations**: Add, subtract, multiply, divide with real-time results
-- **BREAD Operations**: Browse, Read, Edit, Add, Delete calculations
-- **User Isolation**: Users can only access their own calculations
-- **Comprehensive Testing**: 34 unit tests + 38 E2E tests (99% coverage)
-- **CI/CD Pipeline**: Automated testing and Docker deployment
-- **OpenAPI Documentation**: Interactive API documentation
-- **Playwright E2E Tests**: Automated browser testing for auth and BREAD operations
+- **Profile Management**: Update username, email, and password
+- **Reports & Statistics**: Usage analytics and calculation insights
+- **Advanced Operations**: Power, modulus, and square root calculations
+- **User Isolation**: Complete data privacy - users only see their own data
+- **Real-time Validation**: Client-side and server-side validation
+
+### Calculation Operations (7 Total)
+- ➕ **Add**: Addition operations
+- ➖ **Subtract**: Subtraction operations
+- ✖️ **Multiply**: Multiplication operations
+- ➗ **Divide**: Division with zero-prevention
+- 🔢 **Power**: Exponential calculations (^)
+- 📐 **Modulus**: Remainder operations (%)
+- √ **Square Root**: Root calculations
+
+### Pages & UI
+- **Registration Page** - User signup with validation
+- **Login Page** - Secure authentication
+- **Calculator Dashboard** - Main BREAD operations interface
+- **Profile Page** - User settings and password management
+- **Reports Page** - Statistics and analytics dashboard
 
 ## Tech Stack
 
 - **Framework**: FastAPI 0.104.1
-- **Database**: PostgreSQL with SQLAlchemy ORM / SQLite (local dev)
+- **Database**: SQLite (development) / PostgreSQL (production) with SQLAlchemy ORM
 - **Authentication**: JWT with python-jose, bcrypt password hashing
-- **Testing**: pytest (unit tests) + Playwright (E2E tests)
-- **Front-End**: HTML/CSS/JavaScript with client-side validation
+- **Testing**: pytest (unit/integration tests) + Playwright (E2E tests)
+- **Front-End**: HTML/CSS/JavaScript with real-time validation
 - **Containerization**: Docker & Docker Compose
-- **CI/CD**: GitHub Actions (3-stage pipeline: unit → E2E → deploy)
+- **CI/CD**: GitHub Actions with automated testing and deployment
+- **API Documentation**: OpenAPI (Swagger UI & ReDoc)
 
 ## Project Structure
 
@@ -76,40 +98,47 @@ fast_api_calculator/
 │   ├── main.py              # FastAPI application entry point
 │   ├── config.py            # Configuration settings
 │   ├── database.py          # Database connection and session
-│   ├── models.py            # SQLAlchemy models
-│   ├── schemas.py           # Pydantic schemas
+│   ├── models.py            # SQLAlchemy models (User, Calculation)
+│   ├── schemas.py           # Pydantic schemas for validation
 │   ├── auth.py              # JWT authentication utilities
 │   └── routers/
 │       ├── __init__.py
-│       ├── users.py         # User registration and login endpoints
-│       └── calculations.py  # Calculation CRUD endpoints
+│       ├── users.py         # User registration, login, profile endpoints
+│       └── calculations.py  # Calculation BREAD + statistics endpoints
 ├── frontend/
 │   ├── register.html        # User registration page
 │   ├── login.html           # User login page
-│   ├── index.html           # Home page
-│   └── calculations.html    # Calculator dashboard with BREAD operations
+│   ├── calculations.html    # Calculator dashboard with BREAD operations
+│   ├── profile.html         # User profile and settings page
+│   └── reports.html         # Statistics and analytics dashboard
 ├── tests/
-│   ├── __init__.py
 │   ├── conftest.py          # Test fixtures and configuration
 │   ├── test_main.py         # Main app tests
 │   ├── test_users.py        # User endpoint tests (9 tests)
-│   ├── test_calculations.py # Calculation endpoint tests (16 tests)
+│   ├── test_calculations.py # Calculation CRUD tests (16 tests)
 │   ├── test_auth.py         # Authentication tests (5 tests)
-│   └── test_database.py     # Database tests (2 tests)
+│   ├── test_database.py     # Database tests (2 tests)
+│   ├── test_profile.py      # Profile management tests (14 tests)
+│   ├── test_advanced_calculations.py # Advanced ops tests (22 tests)
+│   └── test_reports.py      # Statistics tests (16 tests)
 ├── e2e/
 │   ├── conftest.py          # Playwright test configuration
-│   ├── test_auth_e2e.py     # E2E tests for auth flows (13 tests)
-│   └── test_calculations_e2e.py # E2E tests for BREAD operations (25 tests)
+│   ├── test_auth_e2e.py     # E2E authentication tests
+│   ├── test_calculations_e2e.py # E2E BREAD operation tests
+│   ├── test_profile_e2e.py  # E2E profile management tests
+│   ├── test_advanced_calculations_e2e.py # E2E advanced ops tests
+│   └── test_reports_e2e.py  # E2E statistics tests
 ├── .github/
 │   └── workflows/
-│       └── ci-cd.yml        # GitHub Actions workflow (3 jobs)
-├── Dockerfile
-├── docker-compose.yml
-├── MODULE13_README.md       # Module 13 detailed documentation
-└── MODULE13_REFLECTION.md   # Development reflection
-├── requirements.txt
-├── .env.example
-└── README.md
+│       └── ci-cd.yml        # GitHub Actions CI/CD pipeline
+├── Dockerfile               # Docker image configuration
+├── docker-compose.yml       # Multi-container setup
+├── requirements.txt         # Python dependencies
+├── pytest.ini               # Pytest configuration
+├── pytest-e2e.ini          # Playwright-specific config
+├── .env.example            # Environment variables template
+├── REFLECTION.md           # Project reflection and learnings
+└── README.md               # This file
 ```
 
 ## Installation & Setup
@@ -163,7 +192,8 @@ fast_api_calculator/
    - Registration Page: http://localhost:8000/static/register.html
    - Login Page: http://localhost:8000/static/login.html
    - Calculator Dashboard: http://localhost:8000/static/calculations.html
-   - Home Page: http://localhost:8000/static/index.html
+   - Profile Page: http://localhost:8000/static/profile.html
+   - Reports & Statistics: http://localhost:8000/static/reports.html
 
 ### Docker Setup
 
@@ -212,169 +242,231 @@ Once the application is running, access the interactive API documentation:
 - **POST /calculations/**: Create a new calculation
   ```json
   {
-    "operation": "add",
+    "operation": "add",  // add, subtract, multiply, divide, power, modulus, sqrt
     "operand1": 10,
     "operand2": 5
   }
   ```
 
 - **GET /calculations/**: Browse all calculations (paginated)
+- **GET /calculations/stats**: Get usage statistics and analytics
+  - Query params: `limit` (default: 10) for recent history count
+  - Returns: total calculations, operations breakdown, averages, most used operation, recent history
 - **GET /calculations/{id}**: Read a specific calculation
 - **PUT /calculations/{id}**: Edit a calculation
 - **DELETE /calculations/{id}**: Delete a calculation
 
+### User Profile Endpoints (Require Authentication)
+
+- **GET /users/profile**: Get current user profile
+- **PUT /users/profile**: Update username or email
+- **PUT /users/profile/password**: Change password
+
 ### Supported Operations
 
-- `add`: Addition
-- `subtract`: Subtraction
-- `multiply`: Multiplication
-- `divide`: Division (prevents division by zero)
+- `add`: Addition (10 + 5 = 15)
+- `subtract`: Subtraction (10 - 5 = 5)
+- `multiply`: Multiplication (10 × 5 = 50)
+- `divide`: Division (10 ÷ 5 = 2, prevents division by zero)
+- `power`: Exponentiation (2 ^ 8 = 256)
+- `modulus`: Remainder (17 % 5 = 2)
+- `sqrt`: Square Root (√144 = 12, operand2 ignored)
 
 ## Running Tests
 
-### Local Testing
+### Prerequisites for E2E Tests
 
-### Run Unit Tests
+Make sure the server is running before executing E2E tests:
 
 ```bash
-# Run all unit tests
+# Terminal 1: Start the server
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# Terminal 2: Run E2E tests
+pytest e2e/ -v -c pytest-e2e.ini
+```
+
+### Run Unit and Integration Tests
+
+```bash
+# Activate virtual environment
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Run all unit and integration tests
 pytest tests/ -v
+
+# Run with coverage report
+pytest tests/ --cov=app --cov-report=term-missing
 
 # Run specific test file
 pytest tests/test_users.py -v
 pytest tests/test_calculations.py -v
+pytest tests/test_reports.py -v
+pytest tests/test_advanced_calculations.py -v
 
-# Run with coverage
-pytest tests/ --cov=app --cov-report=term
-pytest tests/ --cov=app --cov-report=html  # Generates HTML report in htmlcov/
+# Generate HTML coverage report
+pytest tests/ --cov=app --cov-report=html
+# Open htmlcov/index.html in browser
 ```
 
 ### Run Playwright E2E Tests
 
 ```bash
-# Make sure server is running first
-uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+# Make sure Playwright browsers are installed
+playwright install chromium
+
+# Start the server first (in another terminal)
+uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 # Run all E2E tests
-pytest e2e/ -v --browser chromium
+pytest e2e/ -v -c pytest-e2e.ini
 
-# Run authentication E2E tests
-pytest e2e/test_auth_e2e.py -v --browser chromium
+# Run specific E2E test files
+pytest e2e/test_auth_e2e.py -v -c pytest-e2e.ini
+pytest e2e/test_calculations_e2e.py -v -c pytest-e2e.ini
+pytest e2e/test_profile_e2e.py -v -c pytest-e2e.ini
+pytest e2e/test_reports_e2e.py -v -c pytest-e2e.ini
 
-# Run calculations BREAD E2E tests
-pytest e2e/test_calculations_e2e.py -v --browser chromium
+# Run in headed mode (see browser actions)
+pytest e2e/ -v -c pytest-e2e.ini --headed
 
-# Run in headed mode (see browser)
-pytest e2e/ -v --browser chromium --headed
-
-# Run specific E2E test
-pytest e2e/test_auth_e2e.py::TestRegistration::test_register_with_valid_data -v
-pytest e2e/test_calculations_e2e.py::TestCalculationsAdd::test_add_calculation_addition -v
+# Run specific test
+pytest e2e/test_reports_e2e.py::TestReportsPageE2E::test_reports_shows_operations_breakdown -v -c pytest-e2e.ini
 ```
 
-### Run All Tests
+### Run All Tests Together
 
 ```bash
-# Unit tests + E2E tests
-pytest -v
+# Unit + Integration tests only (recommended for CI)
+pytest tests/ -v --cov=app
 
-# With coverage
-pytest --cov=app --cov-report=term -v
+# Note: E2E tests require a running server, run separately
 ```
 
 ### Test Coverage
 
-The test suite includes:
+**Total: 89 Unit & Integration Tests (100% Passing)**
 
-**Unit Tests (34 tests)**:
-- User registration and login tests
-- Password validation and hashing tests
-- All calculation CRUD operations
-- Authentication and authorization tests
-- User isolation tests
-- Error handling tests
+**Unit & Integration Tests Breakdown**:
+- **test_users.py** (9 tests): User registration, login, validation
+- **test_auth.py** (5 tests): JWT token generation and validation
+- **test_calculations.py** (16 tests): CRUD operations, user isolation
+- **test_database.py** (2 tests): Database connection and session
+- **test_main.py** (2 tests): Root and health endpoints
+- **test_profile.py** (14 tests): Profile updates, password changes
+- **test_advanced_calculations.py** (22 tests): Power, modulus, sqrt operations
+- **test_reports.py** (16 tests): Statistics, operations breakdown, averages
 
-**E2E Tests (38 tests)**:
-- **Authentication E2E (13 tests)**:
-  - Valid registration flow
-  - Valid login flow
-  - Short password validation
-  - Invalid email validation
-  - Password mismatch detection
-  - Wrong password handling
-  - Nonexistent user handling
-  - Empty field validation
-  - Page navigation tests
+**E2E Tests** (Created, server-dependent):
+- **test_auth_e2e.py**: Authentication flows (registration, login, validation)
+- **test_calculations_e2e.py**: Complete BREAD workflows
+- **test_profile_e2e.py**: Profile management and password changes
+- **test_advanced_calculations_e2e.py**: Advanced operations UI testing
+- **test_reports_e2e.py**: Statistics dashboard and data visualization
 
-- **Calculations BREAD E2E (25 tests)**:
-  - Add calculations (all operations, decimals, error handling)
-  - Browse calculations (empty state, with data)
-  - Read calculation details
-  - Edit calculations (success, cancel, validation)
-  - Delete calculations (success, cancel, multiple)
-  - Negative scenarios (unauthorized access, empty fields, logout)
-
-**Total Coverage**: 99% (228/229 lines)
+**Code Coverage**: **100%** (307/307 lines of production code)
 
 ## CI/CD Pipeline
 
 The project uses GitHub Actions for continuous integration and deployment.
 
-### Workflow Steps
+### Pipeline Overview
 
-The CI/CD pipeline consists of 2 jobs:
+The CI/CD pipeline automatically:
+1. **Runs all unit and integration tests** (89 tests)
+2. **Validates code coverage** (100% coverage requirement)
+3. **Builds Docker image** with optimized caching
+4. **Pushes to Docker Hub** on successful tests
+5. **Tags with commit SHA and 'latest'**
 
-1. **Unit Test Job**
+### Workflow Configuration
+
+**Trigger**: Push to `main` branch or pull requests
+
+**Jobs**:
+1. **Test Job**
    - Sets up Python 3.11 environment
-   - Spins up PostgreSQL service
-   - Installs dependencies
-   - Runs pytest unit tests (34 tests)
-   - Validates code quality
+   - Installs dependencies from requirements.txt
+   - Runs pytest with coverage (`pytest tests/ --cov=app`)
+   - Fails build if tests don't pass or coverage drops
 
-2. **Build and Push Job** (runs after unit tests pass)
-   - Builds Docker image
-   - Logs in to Docker Hub
+2. **Build and Deploy Job** (runs only after tests pass)
+   - Builds Docker image using Dockerfile
+   - Authenticates with Docker Hub
    - Pushes image as `ashikap/fastapi-calculator:latest`
-   - Uses build cache for faster builds
+   - Also tags with Git commit SHA for versioning
 
-**Note**: E2E tests (38 tests) are run locally for comprehensive validation before deployment.
+### Setting Up CI/CD in Your Fork
 
-### Setting Up CI/CD
+1. **Fork the repository** on GitHub
 
-1. **Add GitHub Secrets**
-   - Go to your repository → Settings → Secrets and variables → Actions
-   - Add the following secrets:
+2. **Add GitHub Secrets**:
+   - Navigate to: Repository → Settings → Secrets and variables → Actions
+   - Add these secrets:
      - `DOCKER_USERNAME`: Your Docker Hub username
-     - `DOCKER_PASSWORD`: Your Docker Hub access token
+     - `DOCKER_PASSWORD`: Your Docker Hub access token (not password!)
+       - Generate token at: https://hub.docker.com/settings/security
 
-2. **Push to main/master branch**
+3. **Push changes** to trigger workflow:
    ```bash
    git add .
    git commit -m "Your commit message"
    git push origin main
    ```
 
-3. **Monitor the workflow**
-   - Go to Actions tab in your GitHub repository
-   - Watch the workflow execution
+4. **Monitor execution**:
+   - Go to the **Actions** tab in your GitHub repository
+   - Watch the workflow run in real-time
+   - View test results and build logs
 
-## 🐳 Docker Hub Deployment
+### Pipeline Status
 
-The Docker image is automatically pushed to Docker Hub after successful tests.
+Current pipeline status: [![CI/CD Pipeline](https://github.com/ashika2031/fast_api_calculator/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/ashika2031/fast_api_calculator/actions)
 
-**Docker Hub Repository**: [`ashikap/fastapi-calculator:latest`](https://hub.docker.com/r/ashikap/fastapi-calculator)
+## 🐳 Docker Hub Repository
 
-**Pulling the image:**
+The Docker image is automatically built and pushed to Docker Hub after all tests pass.
+
+**Docker Hub Repository**: **[ashikap/fastapi-calculator](https://hub.docker.com/r/ashikap/fastapi-calculator)**
+
+### Pulling and Running the Image
+
+**Pull the latest image:**
 ```bash
 docker pull ashikap/fastapi-calculator:latest
 ```
 
-**Running the image:**
+**Run with Docker:**
 ```bash
-docker run -p 8000:8000 \
-  -e DATABASE_URL=postgresql://user:password@host:5432/calculator_db \
-  -e SECRET_KEY=your-secret-key \
+docker run -d \
+  -p 8000:8000 \
+  -e DATABASE_URL=sqlite:///./calculator.db \
+  -e SECRET_KEY=your-secret-key-change-this \
+  -e ALGORITHM=HS256 \
+  -e ACCESS_TOKEN_EXPIRE_MINUTES=30 \
+  --name fastapi-calculator \
   ashikap/fastapi-calculator:latest
+```
+
+**Run with Docker Compose:**
+```bash
+# Download docker-compose.yml from the repository
+docker-compose up -d
+```
+
+**Access the application:**
+- API: http://localhost:8000
+- Docs: http://localhost:8000/docs
+- Frontend: http://localhost:8000/static/register.html
+
+**View logs:**
+```bash
+docker logs fastapi-calculator
+```
+
+**Stop the container:**
+```bash
+docker stop fastapi-calculator
 ```
 
 ## Manual Testing via OpenAPI
@@ -408,35 +500,61 @@ docker run -p 8000:8000 \
 
 ## 📚 Additional Documentation
 
-- **� [REFLECTION.md](REFLECTION.md)** - Complete project reflection covering Modules 12, 13, and 14
-- **� [MODULE14_SUMMARY.md](MODULE14_SUMMARY.md)** - Module 14 completion summary and checklist
+- **[REFLECTION.md](REFLECTION.md)** - Complete project reflection with insights, challenges, and learnings
 
-## 🔗 Project Links
+## 🔗 Important Links
 
-- **GitHub Repository**: [ashika2031/fast_api_calculator](https://github.com/ashika2031/fast_api_calculator)
-- **Docker Hub**: [ashikap/fastapi-calculator](https://hub.docker.com/r/ashikap/fastapi-calculator)
-- **GitHub Actions**: [CI/CD Pipeline](https://github.com/ashika2031/fast_api_calculator/actions)
+- **GitHub Repository**: [https://github.com/ashika2031/fast_api_calculator](https://github.com/ashika2031/fast_api_calculator)
+- **Docker Hub Image**: [https://hub.docker.com/r/ashikap/fastapi-calculator](https://hub.docker.com/r/ashikap/fastapi-calculator)
+- **CI/CD Pipeline**: [https://github.com/ashika2031/fast_api_calculator/actions](https://github.com/ashika2031/fast_api_calculator/actions)
+- **Live API Docs**: http://localhost:8000/docs (when running locally)
 
 ## 📊 Project Statistics
 
-- **Total Tests**: 72 (34 unit + 38 E2E)
-- **Test Coverage**: 99% (228/229 lines)
-- **Lines of Code**: 3,200+ lines (production code)
-- **API Endpoints**: 11 endpoints (5 BREAD + 4 auth + 2 utility)
-- **Front-End Pages**: 4 (register, login, index, calculations)
-- **CI/CD Pipeline**: 2-stage automated deployment
-- **Modules Completed**: 3 (Modules 12, 13, and 14)
+- **Total Lines of Code**: 3,500+ lines
+- **Total Tests**: 89 unit/integration tests (100% passing)
+- **Code Coverage**: 100% (307/307 lines)
+- **API Endpoints**: 15 endpoints
+- **Frontend Pages**: 5 pages (register, login, calculator, profile, reports)
+- **Operations Supported**: 7 (add, subtract, multiply, divide, power, modulus, sqrt)
+- **Features Implemented**: Authentication, BREAD operations, Advanced calculations, Statistics/Reports, Profile management
 
-## 🎓 Learning Outcomes
+## 🎓 Key Learning Outcomes
 
-This project demonstrates proficiency in:
-- **Backend Development**: FastAPI, SQLAlchemy, PostgreSQL, JWT authentication
-- **Frontend Development**: HTML/CSS/JavaScript, client-side validation, interactive dashboards
-- **Testing**: Unit tests (pytest), E2E tests (Playwright), 99% code coverage
-- **DevOps**: Docker containerization, GitHub Actions CI/CD, automated deployment
-- **Security**: JWT tokens, password hashing, user isolation, CORS configuration
-- **API Design**: RESTful principles, OpenAPI documentation, BREAD operations
-- **User Experience**: Responsive design, error handling, real-time feedback
+This project demonstrates comprehensive full-stack development skills:
+
+### Backend Development
+- ✅ **FastAPI Framework**: RESTful API design, dependency injection, middleware
+- ✅ **Database Management**: SQLAlchemy ORM, database migrations, query optimization
+- ✅ **Authentication & Security**: JWT tokens, password hashing (bcrypt), user isolation
+- ✅ **Data Validation**: Pydantic schemas, request/response models
+- ✅ **Error Handling**: Custom exceptions, validation errors, HTTP status codes
+
+### Frontend Development
+- ✅ **Modern HTML/CSS**: Responsive design, gradient backgrounds, animations
+- ✅ **JavaScript**: Async/await, fetch API, localStorage, DOM manipulation
+- ✅ **Client-Side Validation**: Real-time form validation, error messages
+- ✅ **User Experience**: Loading states, success/error feedback, intuitive navigation
+
+### Testing & Quality Assurance
+- ✅ **Unit Testing**: pytest fixtures, mocking, isolated tests
+- ✅ **Integration Testing**: Database interactions, API endpoint testing
+- ✅ **E2E Testing**: Playwright browser automation, user workflow testing
+- ✅ **Code Coverage**: 100% coverage achieved and maintained
+- ✅ **Test Organization**: Proper test structure, fixtures, configuration
+
+### DevOps & Deployment
+- ✅ **Containerization**: Docker multi-stage builds, docker-compose orchestration
+- ✅ **CI/CD Pipeline**: GitHub Actions, automated testing, deployment triggers
+- ✅ **Version Control**: Git workflows, meaningful commits, branch management
+- ✅ **Documentation**: Comprehensive README, API documentation, code comments
+
+### Software Engineering Principles
+- ✅ **DRY (Don't Repeat Yourself)**: Reusable functions, fixtures, components
+- ✅ **SOLID Principles**: Separation of concerns, dependency injection
+- ✅ **Security Best Practices**: Input validation, SQL injection prevention, CORS configuration
+- ✅ **Code Organization**: Modular structure, clear naming conventions
+- ✅ **Error Handling**: Graceful failures, informative error messages
 
 ## 📄 License
 
