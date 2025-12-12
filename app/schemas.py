@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 
 # User Schemas
@@ -47,7 +47,7 @@ class TokenData(BaseModel):
 
 # Calculation Schemas
 class CalculationBase(BaseModel):
-    operation: str = Field(..., pattern="^(add|subtract|multiply|divide)$")
+    operation: str = Field(..., pattern="^(add|subtract|multiply|divide|power|modulus|sqrt)$")
     operand1: float
     operand2: float
 
@@ -57,7 +57,7 @@ class CalculationCreate(CalculationBase):
 
 
 class CalculationUpdate(BaseModel):
-    operation: Optional[str] = Field(None, pattern="^(add|subtract|multiply|divide)$")
+    operation: Optional[str] = Field(None, pattern="^(add|subtract|multiply|divide|power|modulus|sqrt)$")
     operand1: Optional[float] = None
     operand2: Optional[float] = None
 
@@ -70,3 +70,21 @@ class CalculationRead(CalculationBase):
     
     class Config:
         from_attributes = True
+
+
+# Statistics/Reports Schemas
+class OperationBreakdown(BaseModel):
+    """Breakdown of calculations by operation type."""
+    operation: str
+    count: int
+    percentage: float
+
+
+class CalculationStats(BaseModel):
+    """Statistics and metrics for user's calculations."""
+    total_calculations: int
+    operations_breakdown: List[OperationBreakdown]
+    average_operand1: Optional[float] = None
+    average_operand2: Optional[float] = None
+    most_used_operation: Optional[str] = None
+    recent_calculations: List[CalculationRead]

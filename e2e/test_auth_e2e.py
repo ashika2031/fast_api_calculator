@@ -59,7 +59,7 @@ class TestRegistration:
         page.fill("#username", f"user_{int(time.time())}")
         page.fill("#email", unique_email)
         page.fill("#password", "short")
-        page.fill("input[id="confirmPassword"]", "short")
+        page.fill('input[id="confirmPassword"]', "short")
         
         # Submit form
         page.click("#registerBtn")

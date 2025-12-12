@@ -253,7 +253,7 @@ class TestPasswordChange:
         page.click("#changePasswordBtn")
         
         # Should show error message
-        page.wait_for_selector("#passwordMessage[style*="display: block"].error", timeout=5000)
+        page.wait_for_selector('#passwordMessage[style*="display: block"].error', timeout=5000)
         error_message = page.locator("#passwordMessage.error")
         assert error_message.is_visible()
         assert "incorrect" in error_message.inner_text().lower()
@@ -273,7 +273,7 @@ class TestPasswordChange:
         page.click("#changePasswordBtn")
         
         # Should show error message about mismatch
-        page.wait_for_selector("#passwordMessage[style*="display: block"].error", timeout=5000)
+        page.wait_for_selector('#passwordMessage[style*="display: block"].error', timeout=5000)
         error_message = page.locator("#passwordMessage.error")
         assert error_message.is_visible()
         assert "do not match" in error_message.inner_text().lower()
@@ -293,7 +293,7 @@ class TestPasswordChange:
         page.click("#changePasswordBtn")
         
         # Should show error message
-        page.wait_for_selector("#passwordMessage[style*="display: block"].error", timeout=5000)
+        page.wait_for_selector('#passwordMessage[style*="display: block"].error', timeout=5000)
         error_message = page.locator("#passwordMessage.error")
         assert error_message.is_visible()
 

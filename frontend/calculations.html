@@ -39,22 +39,6 @@
             margin-bottom: 10px;
         }
 
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.3);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
-            transition: background 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
         .profile-btn {
             background: rgba(255, 255, 255, 0.3);
             color: white;
@@ -262,6 +246,9 @@
         .op-subtract { background: #fff3cd; color: #856404; }
         .op-multiply { background: #d1ecf1; color: #0c5460; }
         .op-divide { background: #f8d7da; color: #721c24; }
+        .op-power { background: #e7d4f8; color: #5a1c7a; }
+        .op-modulus { background: #ffe5cc; color: #cc5500; }
+        .op-sqrt { background: #ccf5f5; color: #0d7a7a; }
     </style>
 </head>
 <body>
@@ -269,8 +256,8 @@
         <h1>🧮 Calculator Dashboard</h1>
         <div class="user-info">
             <span id="username">Welcome!</span>
+            <a href="/static/reports.html" class="profile-btn">📊 Reports</a>
             <a href="/static/profile.html" class="profile-btn">👤 Profile</a>
-            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </div>
 
@@ -288,11 +275,14 @@
                     </div>
                     <div class="form-group">
                         <label for="operation">Operation</label>
-                        <select id="operation" required>
+                        <select id="operation" required onchange="handleOperationChange()">
                             <option value="add">Add (+)</option>
                             <option value="subtract">Subtract (-)</option>
                             <option value="multiply">Multiply (×)</option>
                             <option value="divide">Divide (÷)</option>
+                            <option value="power">Power (^)</option>
+                            <option value="modulus">Modulus (%)</option>
+                            <option value="sqrt">Square Root (√)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -319,11 +309,14 @@
                     </div>
                     <div class="form-group">
                         <label for="editOperation">Operation</label>
-                        <select id="editOperation" required>
+                        <select id="editOperation" required onchange="handleEditOperationChange()">
                             <option value="add">Add (+)</option>
                             <option value="subtract">Subtract (-)</option>
                             <option value="multiply">Multiply (×)</option>
                             <option value="divide">Divide (÷)</option>
+                            <option value="power">Power (^)</option>
+                            <option value="modulus">Modulus (%)</option>
+                            <option value="sqrt">Square Root (√)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -361,6 +354,56 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadCalculations();
         });
+
+        // Handle operation change for add form (sqrt only needs 1 operand)
+        function handleOperationChange() {
+            const operation = document.getElementById('operation').value;
+            const operand2Field = document.getElementById('operand2');
+            const operand2Label = document.querySelector('label[for="operand2"]');
+            
+            if (operation === 'sqrt') {
+                operand2Field.value = '0';
+                operand2Field.disabled = true;
+                operand2Field.required = false;
+                operand2Label.style.opacity = '0.5';
+                operand2Field.style.opacity = '0.5';
+                operand2Field.placeholder = 'Not needed for √';
+            } else {
+                operand2Field.disabled = false;
+                operand2Field.required = true;
+                operand2Label.style.opacity = '1';
+                operand2Field.style.opacity = '1';
+                operand2Field.placeholder = '';
+                if (operand2Field.value === '0') {
+                    operand2Field.value = '';
+                }
+            }
+        }
+
+        // Handle operation change for edit form (sqrt only needs 1 operand)
+        function handleEditOperationChange() {
+            const operation = document.getElementById('editOperation').value;
+            const operand2Field = document.getElementById('editOperand2');
+            const operand2Label = document.querySelector('label[for="editOperand2"]');
+            
+            if (operation === 'sqrt') {
+                operand2Field.value = '0';
+                operand2Field.disabled = true;
+                operand2Field.required = false;
+                operand2Label.style.opacity = '0.5';
+                operand2Field.style.opacity = '0.5';
+                operand2Field.placeholder = 'Not needed for √';
+            } else {
+                operand2Field.disabled = false;
+                operand2Field.required = true;
+                operand2Label.style.opacity = '1';
+                operand2Field.style.opacity = '1';
+                operand2Field.placeholder = '';
+                if (operand2Field.value === '0') {
+                    operand2Field.value = '';
+                }
+            }
+        }
 
         function showMessage(message, type = 'success') {
             const messageDiv = document.getElementById('message');
@@ -435,7 +478,10 @@
                 'add': '+',
                 'subtract': '-',
                 'multiply': '×',
-                'divide': '÷'
+                'divide': '÷',
+                'power': '^',
+                'modulus': '%',
+                'sqrt': '√'
             };
 
             let html = `
@@ -456,11 +502,20 @@
             calculations.forEach(calc => {
                 const date = new Date(calc.created_at).toLocaleString();
                 const symbol = operationSymbols[calc.operation] || calc.operation;
+                
+                // Format expression based on operation type
+                let expression;
+                if (calc.operation === 'sqrt') {
+                    expression = `√${calc.operand1}`;
+                } else {
+                    expression = `${calc.operand1} ${symbol} ${calc.operand2}`;
+                }
+                
                 html += `
                     <tr>
                         <td>${calc.id}</td>
                         <td><span class="operation-badge op-${calc.operation}">${calc.operation}</span></td>
-                        <td>${calc.operand1} ${symbol} ${calc.operand2}</td>
+                        <td>${expression}</td>
                         <td><strong>${calc.result}</strong></td>
                         <td>${date}</td>
                         <td class="actions">
@@ -493,6 +548,9 @@
                     document.getElementById('editOperand1').value = calc.operand1;
                     document.getElementById('editOperation').value = calc.operation;
                     document.getElementById('editOperand2').value = calc.operand2;
+                    
+                    // Trigger the operation change handler to handle sqrt
+                    handleEditOperationChange();
                     
                     document.getElementById('addSection').style.display = 'none';
                     document.getElementById('editSection').style.display = 'block';
@@ -567,11 +625,6 @@
             document.getElementById('editSection').style.display = 'none';
             document.getElementById('addSection').style.display = 'block';
             document.getElementById('editForm').reset();
-        }
-
-        function logout() {
-            localStorage.removeItem('token');
-            window.location.href = '/static/login.html';
         }
     </script>
 </body>
