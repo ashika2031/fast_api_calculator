@@ -26,6 +26,16 @@ class UserRead(UserBase):
         from_attributes = True
 
 
+class UserProfileUpdate(BaseModel):
+    username: Optional[str] = Field(None, min_length=3, max_length=50)
+    email: Optional[EmailStr] = None
+
+
+class UserPasswordChange(BaseModel):
+    current_password: str
+    new_password: str = Field(..., min_length=6, max_length=100)
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str

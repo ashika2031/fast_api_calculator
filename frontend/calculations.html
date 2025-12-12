@@ -55,6 +55,24 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
+        .profile-btn {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .profile-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
         .container {
             max-width: 1200px;
             width: 100%;
@@ -251,6 +269,7 @@
         <h1>🧮 Calculator Dashboard</h1>
         <div class="user-info">
             <span id="username">Welcome!</span>
+            <a href="/static/profile.html" class="profile-btn">👤 Profile</a>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </div>
